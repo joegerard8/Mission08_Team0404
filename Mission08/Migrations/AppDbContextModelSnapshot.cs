@@ -19,7 +19,7 @@ namespace Mission08.Migrations
 
             modelBuilder.Entity("Mission08.Models.Category", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -27,40 +27,40 @@ namespace Mission08.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            CategoryId = 1,
                             Name = "Home"
                         },
                         new
                         {
-                            Id = 2,
+                            CategoryId = 2,
                             Name = "School"
                         },
                         new
                         {
-                            Id = 3,
+                            CategoryId = 3,
                             Name = "Work"
                         },
                         new
                         {
-                            Id = 4,
+                            CategoryId = 4,
                             Name = "Church"
                         });
                 });
 
             modelBuilder.Entity("Mission08.Models.Task", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TaskId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("Completed")
@@ -76,7 +76,7 @@ namespace Mission08.Migrations
                     b.Property<int>("Quadrant")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Id");
+                    b.HasKey("TaskId");
 
                     b.HasIndex("CategoryId");
 
@@ -87,9 +87,7 @@ namespace Mission08.Migrations
                 {
                     b.HasOne("Mission08.Models.Category", "Category")
                         .WithMany("Tasks")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
                 });
