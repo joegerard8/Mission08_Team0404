@@ -1,0 +1,55 @@
+@{
+    ViewData["Title"] = "Add Task";
+}
+@model Mission08.Models.Task
+
+<h1 class="text-center">Add Task</h1>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Name">Task Name:</label>
+        <input asp-for="Name" class="form-control" />
+        <div class="invalid-feedback" asp-validation-for="Name"></div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DueDate">Due Date:</label>
+        <input asp-for="DueDate" class="form-control" type="date" />
+        <div class="invalid-feedback" asp-validation-for="DueDate"></div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Quadrant">Quadrant:</label>
+        <select asp-for="Quadrant" class="form-control">
+            <option value="1">Quadrant 1</option>
+            <option value="2">Quadrant 2</option>
+            <option value="3">Quadrant 3</option>
+            <option value="4">Quadrant 4</option>
+        </select>
+        <div class="invalid-feedback" asp-validation-for="Quadrant"></div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CategoryId">Category:</label>
+        <select asp-for="CategoryId" class="form-control">
+            <option value="">-- Select a Category --</option>
+            @foreach (var category in ViewBag.Categories)
+            {
+                <option value="@category.CategoryId">@category.Name</option>
+            }
+        </select>
+        <div class="invalid-feedback" asp-validation-for="CategoryId"></div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Completed">Completed:</label>
+        <select asp-for="Completed" class="form-control">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select>
+        <div class="invalid-feedback" asp-validation-for="Completed"></div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit Task</button>
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+</form>
