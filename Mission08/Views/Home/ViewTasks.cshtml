@@ -1,34 +1,107 @@
 @model List<Mission08.Models.Task>
 
-<h2 class="text-center my-4">Task List</h2>
+<h2 class="text-center my-4">Task Quadrants</h2>
 
-<table class="table table-bordered table-hover">
-    <thead class="thead-dark">
-    <tr>
-        <th>Task ID</th>
-        <th>Task Name</th>
-        <th>Due Date</th>
-        <th>Quadrant</th>
-        <th>Category</th>
-        <th>Completed</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var task in Model)
-    {
-        <tr>
-            <td>@task.TaskId</td>
-            <td>@task.Name</td>
-            <td>@(task.DueDate?.ToString("yyyy-MM-dd") ?? "N/A")</td>
-            <td>@task.Quadrant</td>
-            <td>@task.CategoryId</td>
-            <td>@(task.Completed ? "Yes" : "No")</td>
-            <td>
-                <a class="btn btn-outline-dark" asp-controller="Home" asp-action="Edit" asp-route-id="@task.TaskId">Edit</a>
-                <a class="btn btn-outline-dark" asp-controller="Home" asp-action="Delete" asp-route-id="@task.TaskId">Delete</a>
-            </td>
-        </tr>
+<div class="container">
+    <!-- Header for Urgent / Not Urgent -->
+    <div class="row text-center fw-bold">
+        <div class="col-md-2 border p-2 bg-light"></div> <!-- Empty column for alignment -->
+        <div class="col-md-5 border p-2 bg-light">Urgent</div>
+        <div class="col-md-5 border p-2 bg-light">Not Urgent</div>
+    </div>
+
+    <div class="row">
+        <!-- "Important" Label (Vertical) -->
+        <div class="col-md-2 text-center fw-bold text-success d-flex align-items-center justify-content-center border bg-light"
+             style="writing-mode: vertical-rl; transform: rotate(180deg); min-height: 250px;">
+            Important
+        </div>
+
+        <!-- Quadrant 1 -->
+        <div class="col-md-5 border p-3 d-flex flex-column" style="min-height: 250px;">
+            <h5 class="fw-bold text-danger">Quadrant 1: Important / Urgent</h5>
+            <p><em>Crises, Pressing Problems, Deadlines</em></p>
+            <div class="overflow-auto flex-grow-1">
+                @foreach (var task in Model.Where(t => t.Quadrant == 1 && !t.Completed))
+                {
+                    <div class="border-bottom pb-2 mb-2">
+                        <strong>@task.Name</strong><br />
+                        Due: @(task.DueDate?.ToString("yyyy-MM-dd") ?? "N/A")<br />
+                        <a asp-action="Edit" asp-route-id="@task.TaskId" class="btn btn-sm btn-primary">Edit</a>
+                        <a href="javascript:void(0);" onclick="deleteTask(@task.TaskId)" class="btn btn-sm btn-danger">Delete</a>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Quadrant 2 -->
+        <div class="col-md-5 border p-3 d-flex flex-column" style="min-height: 250px;">
+            <h5 class="fw-bold text-warning">Quadrant 2: Important / Not Urgent</h5>
+            <p><em>Planning, Relationship Building, Recreation</em></p>
+            <div class="overflow-auto flex-grow-1">
+                @foreach (var task in Model.Where(t => t.Quadrant == 2 && !t.Completed))
+                {
+                    <div class="border-bottom pb-2 mb-2">
+                        <strong>@task.Name</strong><br />
+                        Due: @(task.DueDate?.ToString("yyyy-MM-dd") ?? "N/A")<br />
+                        <a asp-action="Edit" asp-route-id="@task.TaskId" class="btn btn-sm btn-primary">Edit</a>
+                        <a href="javascript:void(0);" onclick="deleteTask(@task.TaskId)" class="btn btn-sm btn-danger">Delete</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- "Not Important" Label (Vertical) -->
+        <div class="col-md-2 text-center fw-bold text-danger d-flex align-items-center justify-content-center border bg-light"
+             style="writing-mode: vertical-rl; transform: rotate(180deg); min-height: 250px;">
+            Not Important
+        </div>
+
+        <!-- Quadrant 3 -->
+        <div class="col-md-5 border p-3 d-flex flex-column" style="min-height: 250px;">
+            <h5 class="fw-bold text-info">Quadrant 3: Not Important / Urgent</h5>
+            <p><em>Interruptions, Some Calls, Some Mail</em></p>
+            <div class="overflow-auto flex-grow-1">
+                @foreach (var task in Model.Where(t => t.Quadrant == 3 && !t.Completed))
+                {
+                    <div class="border-bottom pb-2 mb-2">
+                        <strong>@task.Name</strong><br />
+                        Due: @(task.DueDate?.ToString("yyyy-MM-dd") ?? "N/A")<br />
+                        <a asp-action="Edit" asp-route-id="@task.TaskId" class="btn btn-sm btn-primary">Edit</a>
+                        <a href="javascript:void(0);" onclick="deleteTask(@task.TaskId)" class="btn btn-sm btn-danger">Delete</a>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Quadrant 4 -->
+        <div class="col-md-5 border p-3 d-flex flex-column" style="min-height: 250px;">
+            <h5 class="fw-bold text-secondary">Quadrant 4: Not Important / Not Urgent</h5>
+            <p><em>Busy Work, Some Calls, Time Wasters</em></p>
+            <div class="overflow-auto flex-grow-1">
+                @foreach (var task in Model.Where(t => t.Quadrant == 4 && !t.Completed))
+                {
+                    <div class="border-bottom pb-2 mb-2">
+                        <strong>@task.Name</strong><br />
+                        Due: @(task.DueDate?.ToString("yyyy-MM-dd") ?? "N/A")<br />
+                        <a asp-action="Edit" asp-route-id="@task.TaskId" class="btn btn-sm btn-primary">Edit</a>
+                        <a href="javascript:void(0);" onclick="deleteTask(@task.TaskId)" class="btn btn-sm btn-danger">Delete</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Handle Deletion (Placed Once at the Bottom) -->
+<script>
+    function deleteTask(taskId) {
+        if (confirm('Delete this task?')) {
+            fetch(`/Home/Delete/${taskId}`, { method: 'POST' })
+                .then(() => location.reload()) // Refresh the page after deletion
+                .catch(err => console.error(err));
+        }
     }
-    </tbody>
-</table>
+</script>

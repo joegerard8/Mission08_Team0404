@@ -17,5 +17,20 @@ public class EFTaskRepository : ITaskRepository
         _context.Add(task);
         _context.SaveChanges();
     }
-    
+
+    public void DeleteTask(int id)
+    {
+        var task = _context.Tasks.Find(id); // Find the task by ID
+        if (task != null)
+        {
+            _context.Tasks.Remove(task); // Remove it from the database
+            _context.SaveChanges(); // Save the changes
+        }
+    }
+    public void UpdateTask(Task task)
+    {
+        _context.Tasks.Update(task);
+        _context.SaveChanges();
+    }
+
 }
