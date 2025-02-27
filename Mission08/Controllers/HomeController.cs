@@ -58,5 +58,41 @@ namespace Mission08.Controllers
             return View(task);
         }
 
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            _repo.DeleteTask(id); //Delete the task
+            return RedirectToAction("ViewTasks"); //Redirect back to the task list
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var task = _repo.Tasks.FirstOrDefault(t => t.TaskId == id);
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            // Pass the categories for dropdown
+            ViewBag.Categories = _repo.Categories.ToList();
+            return View("~/Views/Home/Edit.cshtml", task);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Mission08.Models.Task task)
+        {
+            if (ModelState.IsValid)
+            {
+                _repo.UpdateTask(task); //Update the task in the database
+                return RedirectToAction("ViewTasks"); //Redirect back to the main task list
+            }
+
+            // If validation fails, reload categories
+            ViewBag.Categories = _repo.Categories.ToList();
+            return View(task);
+        }
+
     }
 }
